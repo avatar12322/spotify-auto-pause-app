@@ -6,17 +6,18 @@ yarn-error.log*
 package-lock.json
 
 # .NET Core / Backend
-bin/
-obj/
-*.dll
-*.exe
-*.pdb
-*.cache
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-.vs/
+**/bin/
+**/obj/
+**/*.dll
+**/*.exe
+**/*.pdb
+**/*.cache
+**/*.suo
+**/*.user
+**/*.userosscache
+**/*.sln.docstates
+**/.vs/
+*.csproj.user
 
 # Build outputs
 build/
@@ -76,3 +77,14 @@ node_modules.bak/
 frontend/temp/
 *.zip
 electron-*.zip
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
