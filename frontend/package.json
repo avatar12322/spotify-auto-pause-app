@@ -1,0 +1,113 @@
+{
+  "name": "spotify-auto-pause-frontend",
+  "version": "1.0.0",
+  "description": "Spotify Auto-Pause Electron Frontend",
+  "main": "dist/main/main.js",
+  "author": "Avatar",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"npm run watch\" \"npm run electron:dev\"",
+    "watch": "webpack --mode development --watch",
+    "electron:dev": "wait-on dist/main/main.js && electron . --dev",
+    "build": "webpack --mode production",
+    "prebuild:electron": "npm run build",
+    "build:electron": "electron-builder",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:portable": "npm run build && electron-builder --win portable",
+    "start": "electron .",
+    "test": "jest",
+    "clean": "rimraf dist && rimraf release"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "concurrently": "^8.0.0",
+    "copy-webpack-plugin": "^12.0.0",
+    "css-loader": "^7.0.0",
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0",
+    "eslint": "^8.0.0",
+    "html-webpack-plugin": "^5.0.0",
+    "rimraf": "^5.0.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.0.0",
+    "typescript": "^5.0.0",
+    "wait-on": "^8.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "electron-store": "^10.1.0"
+  },
+  "build": {
+    "appId": "com.avatar.spotify-auto-pause",
+    "productName": "Spotify Auto-Pause",
+    "copyright": "Copyright © 2025 Avatar",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "!**/node_modules/**/*",
+      "!src/**/*",
+      "!*.md"
+    ],
+    "extraResources": [
+      {
+        "from": "../backend/bin/Release/net8.0/publish/",
+        "to": "backend/",
+        "filter": [
+          "**/*",
+          "!*.pdb"
+        ]
+      }
+    ],
+    "afterPack": "./build/afterPack.js",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "sign": null,
+      "verifyUpdateCodeSignature": false,
+      "requestedExecutionLevel": "asInvoker",
+      "certificateFile": null,
+      "certificatePassword": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Spotify Auto-Pause"
+    },
+    "portable": {
+      "artifactName": "SpotifyAutoPause-${version}-portable.exe"
+    },
+    "forceCodeSigning": false,
+    "publish": null,
+    "compression": "normal",
+    "buildDependenciesFromSource": false,
+    "nodeGypRebuild": false,
+    "electronDownload": {
+      "cache": "temp"
+    },
+    "removePackageScripts": true
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

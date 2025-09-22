@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="app.title">Spotify Auto-Pause</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="11" fill="#1DB954"/>
+                    <path d="M8 10l4 4 4-4" stroke="white" stroke-width="2" fill="none"/>
+                </svg>
+                <h1 data-i18n="app.title">Spotify Auto-Pause</h1>
+            </div>
+            <div class="status-indicator" id="statusIndicator">
+                <span class="status-dot"></span>
+                <span class="status-text" data-i18n="status.inactive">Inactive</span>
+            </div>
+        </div>
+
+        <!-- Main Controls -->
+        <div class="main-controls">
+            <button class="toggle-btn" id="toggleBtn">
+                <span class="btn-icon">▶</span>
+                <span class="btn-text" data-i18n="buttons.startMonitoring">Start monitoring</span>
+            </button>
+            
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <span class="stat-label" data-i18n="messages.currentStatus">Status:</span>
+                    <span class="stat-value" id="currentStatus" data-i18n="status.stopped">Stopped</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label" data-i18n="messages.lastActivity">Last activity:</span>
+                    <span class="stat-value" id="lastActivity">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Settings -->
+        <div class="settings-section">
+            <h3 data-i18n="settings.quickSettings">Quick settings</h3>
+            
+            <!-- Language Selector -->
+            <div class="setting-group">
+                <div id="language-container"></div>
+            </div>
+            
+            <div class="setting-group">
+                <label data-i18n="settings.detectionThreshold">Audio detection threshold:</label>
+                <div class="range-container">
+                    <input type="range" id="threshold" min="0.005" max="0.1" step="0.001" value="0.02">
+                    <span class="range-value" id="thresholdValue">2%</span>
+                </div>
+                
+                <!-- Preset buttons -->
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-value="0.005">0.5%</button>
+                    <button class="preset-btn" data-value="0.01">1%</button>
+                    <button class="preset-btn active" data-value="0.02">2%</button>
+                    <button class="preset-btn" data-value="0.05">5%</button>
+                    <button class="preset-btn" data-value="0.1">10%</button>
+                </div>
+                
+                <small data-i18n="settings.thresholdNote">Lower values = more sensitive to quiet sounds</small>
+            </div>
+            
+            <div class="setting-group">
+                <label for="silenceTime" data-i18n="settings.silenceTime">Silence time before resume (s):</label>
+                <div class="range-container">
+                    <input type="range" id="silenceTime" min="0.5" max="10" step="0.5" value="2">
+                    <span class="range-value" id="silenceTimeValue">2</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Excluded Apps -->
+        <div class="excluded-apps-section">
+            <h3 data-i18n="settings.excludedApps">Excluded applications</h3>
+            <div id="excludedApps" class="app-tags">
+                <!-- Dynamically populated -->
+            </div>
+            
+            <div class="app-management">
+                <button id="addAppBtn" class="add-app-btn">
+                    + <span data-i18n="buttons.addManually">Add manually</span>
+                </button>
+                <button id="selectFromProcesses" class="add-app-btn">
+                    🎯 <span data-i18n="buttons.selectFromProcesses">Select from running</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Logs Section -->
+        <div class="logs-section">
+            <div class="logs-header">
+                <h3 data-i18n="logs.title">Activity logs</h3>
+                <div class="logs-controls">
+                    <button class="btn-small" id="clearLogsBtn" data-i18n="buttons.clear">Clear</button>
+                    <button class="btn-small" id="refreshLogsBtn" data-i18n="buttons.refresh">Refresh</button>
+                </div>
+            </div>
+            <div class="logs-container" id="logsContainer">
+                <div class="log-entry info">
+                    <span class="log-time">--:--:--</span>
+                    <span class="log-message" data-i18n="logs.appStarted">Application started</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <button class="link-btn" id="spotifyDashboardBtn">
+                🔧 <span data-i18n="footer.spotifyConfig">Spotify configuration</span>
+            </button>
+            <button class="link-btn" id="resetConfigBtn">
+                🔄 <span data-i18n="footer.resetConfig">Reset configuration</span>
+            </button>
+            <div class="version-info">
+                v1.0.0 • <span data-i18n="footer.version">Made with ❤️</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add App Modal -->
+    <div class="modal" id="addAppModal">
+        <div class="modal-content">
+            <h3 data-i18n="modals.addApp.title">Add application to exclude</h3>
+            <input type="text" id="newAppName" data-i18n-placeholder="modals.addApp.placeholder" placeholder="e.g. chrome, discord, game.exe">
+            <div class="modal-actions">
+                <button class="btn-secondary" id="cancelAddApp" data-i18n="buttons.cancel">Cancel</button>
+                <button class="btn-primary" id="confirmAddApp" data-i18n="buttons.add">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

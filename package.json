@@ -1,0 +1,46 @@
+{
+  "name": "spotify-auto-pause",
+  "version": "1.0.0",
+  "description": "Spotify Auto-Pause Application - Automatycznie pauzuje Spotify gdy wykryje inne dźwięki",
+  "private": true,
+  "author": "Avatar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/spotify-auto-pause-app"
+  },
+  "scripts": {
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && dotnet restore",
+    "install:all": "npm run install:frontend && npm run install:backend",
+    
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && dotnet publish -c Release -o bin/Release/net8.0/publish",
+    "build": "npm run build:backend && npm run build:frontend",
+    
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && dotnet run --project SpotifyAutoPause.API",
+    "dev:frontend": "cd frontend && npm run dev",
+    
+    "dist": "npm run build && cd frontend && npm run build:electron",
+    "clean": "cd frontend && npm run clean && cd ../backend && dotnet clean",
+    
+    "test:backend": "cd backend && dotnet test",
+    "test:frontend": "cd frontend && npm run test",
+    "test": "npm run test:backend && npm run test:frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "spotify",
+    "auto-pause",
+    "audio-monitoring",
+    "electron",
+    "dotnet"
+  ]
+}
