@@ -71,3 +71,8 @@ node_modules.bak/
 *.pid
 *.seed
 *.pid.lock
+
+# Duże pliki
+frontend/temp/
+*.zip
+electron-*.zip
